@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiche de Synthèse - Histoire</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #6366f1;
+    --secondary: #0ea5e9;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #ec4899;
+    --purple: #413BDD;
+    --bilan: #64748b;
+    
+    --bg-white: #ffffff;
+    --bg-light: #f8fafc;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --text-light: #ffffff;
+    
+    --spacing-sm: 12px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    
+    --shadow-sm: 0 2px 8px rgba(108, 92, 231, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    
+    --gradient-primary: linear-gradient(100deg, var(--primary), #a5b4fc);
+    --gradient-secondary: linear-gradient(100deg, var(--secondary), #7dd3fc);
+    --gradient-success: linear-gradient(100deg, var(--success), #6ee7b7);
+    --gradient-warning: linear-gradient(100deg, var(--warning), #fbbf24);
+    --gradient-danger: linear-gradient(100deg, var(--danger), #f87171);
+    --gradient-info: linear-gradient(100deg, var(--info), #f472b6);
+    --gradient-carte: linear-gradient(100deg, var(--purple), #7490FF);
+    --gradient-bilan: linear-gradient(100deg, var(--bilan), #9EA9AD);
+    --gradient-carte-mentale: linear-gradient(100deg, #E9AC16, #fbbf24);
+  }
+
+  [data-theme="dark"] {
+    --bg-light: #292929;
+    --bg-white: #3a3a3a;
+    --text-dark: #e8e8e8;
+    --text-muted: #b8b8b8;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding-top: 80px;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    transition: all 0.3s ease;
+  }
+
+  /* Toolbar simplifiée */
+  .toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-bottom: 2px solid #e9ecef;
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 20px;
+  }
+
+  [data-theme="dark"] .toolbar {
+    background: linear-gradient(135deg, #2e2e2e 0%, #2e2e2e 100%);
+    border-bottom-color: #444444;
+  }
+
+  .toolbar-btn {
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+  }
+
+  .toolbar-btn:hover { transform: translateY(-2px); }
+
+  .btn-theme { background: linear-gradient(135deg, #74b9ff, #0984e3); }
+  .btn-print { background: linear-gradient(135deg, #4BC01B, #3A9415); }
+  .btn-font { background: linear-gradient(135deg, #fd79a8, #e84393); }
+
+  /* Contenu principal */
+  .content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 30px;
+  }
+
+  /* En-tête */
+  .chapter-header {
+    text-align: center;
+    margin: 0 auto 40px;
+    padding: 25px;
+    background: linear-gradient(#E6834C, #7362EA);
+    color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+  }
+
+  .theme-title {
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 20px;
+  }
+  
+  .chapter-title {
+    margin: 12px 0;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  
+  .chapter-number {
+    font-size: 20px;
+    font-weight: 500;
+    opacity: 0.9;
+    margin-top: 2px;
+  }
+
+  /* Sections */
+  .section {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--text-light);
+  }
+
+  .section-badge {
+    background: rgba(255,255,255,0.25);
+    border: 2px solid rgba(255,255,255,0.35);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+  }
+
+  .card {
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+    border: 2px solid;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(108, 92, 231, 0.15);
+  }
+
+  .list-styled {
+    list-style: none;
+    padding-left: 10px;
+    margin: 0;
+  }
+
+  .list-styled li {
+    position: relative;
+    margin: var(--spacing-md) 0;
+    line-height: 1.5;
+    font-size: 0.95em;
+    padding-left: 35px;
+  }
+
+  .list-styled li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1em;
+  }
+
+  /* Styles spécifiques par section */
+  .problematique {
+    background: linear-gradient(180deg, #f1efff, #e8e5ff);
+    border-left: 5px solid var(--primary);
+  }
+
+  [data-theme="dark"] .problematique {
+    background: linear-gradient(180deg, #3a3650, #2f2d45);
+  }
+
+  .problematique .section-header {
+    background: var(--gradient-primary);
+  }
+
+  .problematique-content {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-left: 4px solid var(--primary);
+  }
+
+  .problematique-highlight-box {
+    background: var(--bg-white);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .problematique-highlight-box h4 {
+    font-size: 1.1em;
+    margin: 0 0 var(--spacing-sm);
+    color: var(--primary);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .problematique .list-styled li::before {
+    content: '►';
+    color: var(--primary);
+  }
+
+  /* Plan */
+  .plan {
+    background: linear-gradient(180deg, #e6f3ff, #ddeeff);
+    border-left: 5px solid var(--secondary);
+  }
+
+  [data-theme="dark"] .plan {
+    background: linear-gradient(180deg, #2e3950, #242945);
+  }
+
+  .plan .section-header {
+    background: var(--gradient-secondary);
+  }
+
+  .plan .card:nth-child(1) { border-color: #719DFA; }
+  .plan .card:nth-child(2) { border-color: #00b894; }
+  .plan .card:nth-child(3) { border-color: #6c5ce7; }
+  .plan .card:nth-child(4) { border-color: #E15750; }
+
+  .plan-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .plan-card-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: var(--text-light);
+    font-size: 1em;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+  }
+
+  .plan .card:nth-child(1) .plan-card-icon { background: #719DFA; }
+  .plan .card:nth-child(2) .plan-card-icon { background: #00b894; }
+  .plan .card:nth-child(3) .plan-card-icon { background: #6c5ce7; }
+  .plan .card:nth-child(4) .plan-card-icon { background: #E15750; }
+
+  .plan .card:nth-child(1) h3 { color: #719DFA; }
+  .plan .card:nth-child(2) h3 { color: #00b894; }
+  .plan .card:nth-child(3) h3 { color: #6c5ce7; }
+  .plan .card:nth-child(4) h3 { color: #E15750; }
+
+  .plan-card-title {
+    font-size: 1.1em;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 600;
+    flex-grow: 1;
+  }
+
+  /* Compétences */
+  .competences {
+    background: linear-gradient(180deg, #e6f6f0, #dff5ec);
+    border-left: 5px solid var(--success);
+  }
+
+  [data-theme="dark"] .competences {
+    background: linear-gradient(180deg, #2e4f40, #243936);
+  }
+
+  .competences .section-header {
+    background: var(--gradient-success);
+  }
+
+  .competences .card {
+    border-color: var(--success);
+  }
+
+  .competences-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.1em;
+    color: var(--success);
+    text-transform: uppercase;
+  }
+
+  [data-theme="dark"] .competences-title {
+    color: #6ee7b7;
+  }
+
+  .competences .list-styled li::before {
+    color: var(--success);
+  }
+
+  /* Vocabulaire */
+  .vocabulaire {
+    background: linear-gradient(180deg, #fef7ed, #fed7aa);
+    border-left: 5px solid var(--warning);
+  }
+
+  [data-theme="dark"] .vocabulaire {
+    background: linear-gradient(180deg, #4d4230, #3d3628);
+  }
+
+  .vocabulaire .section-header {
+    background: var(--gradient-warning);
+  }
+
+  .vocab-term {
+    font-weight: 700;
+    color: var(--warning);
+    text-transform: uppercase;
+    display: inline;
+    margin-right: 8px;
+  }
+
+  .vocab-definition {
+    font-weight: 400;
+    color: var(--text-dark);
+    text-transform: none;
+    display: inline;
+  }
+
+  [data-theme="dark"] .vocab-term {
+    color: #fbbf24;
+  }
+
+  [data-theme="dark"] .vocab-definition {
+    color: #ffffff;
+  }
+
+  /* Catégories de vocabulaire avec couleurs différenciées */
+  .vocab-category-title {
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    text-align: center;
+    padding-bottom: 8px;
+  }
+
+  .vocabulaire .card:nth-child(1) { border-color: #e74c3c; }
+  .vocabulaire .card:nth-child(2) { border-color: #3498db; }
+  .vocabulaire .card:nth-child(3) { border-color: #9b59b6; }
+  .vocabulaire .card:nth-child(4) { border-color: #e67e22; }
+
+  .vocabulaire .card:nth-child(1) .vocab-category-title { color: #e74c3c; }
+  .vocabulaire .card:nth-child(2) .vocab-category-title { color: #3498db; }
+  .vocabulaire .card:nth-child(3) .vocab-category-title { color: #9b59b6; }
+  .vocabulaire .card:nth-child(4) .vocab-category-title { color: #e67e22; }
+
+  .vocabulaire .card:nth-child(1) .vocab-term { color: #e74c3c; }
+  .vocabulaire .card:nth-child(2) .vocab-term { color: #3498db; }
+  .vocabulaire .card:nth-child(3) .vocab-term { color: #9b59b6; }
+  .vocabulaire .card:nth-child(4) .vocab-term { color: #e67e22; }
+
+  .vocabulaire .card:nth-child(1) .list-styled li::before { color: #e74c3c; }
+  .vocabulaire .card:nth-child(2) .list-styled li::before { color: #3498db; }
+  .vocabulaire .card:nth-child(3) .list-styled li::before { color: #9b59b6; }
+  .vocabulaire .card:nth-child(4) .list-styled li::before { color: #e67e22; }
+
+  /* Dates */
+  .dates {
+    background: linear-gradient(180deg, #ffe8e8, #ffd6d6);
+    border-left: 5px solid var(--danger);
+  }
+
+  [data-theme="dark"] .dates {
+    background: linear-gradient(180deg, #4d3030, #3d2828);
+  }
+
+  .dates .section-header {
+    background: var(--gradient-danger);
+  }
+
+  .dates-content {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .dates-highlight-box {
+    background: var(--bg-white);
+    border: 2px solid var(--danger);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--shadow-md);
+  }
+
+  .dates-highlight-box h4 {
+    font-size: 1.1em;
+    margin: 0 0 var(--spacing-sm);
+    color: var(--danger);
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .dates .list-styled li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-sm) 0;
+    padding-left: 0;
+  }
+
+  .dates .list-styled li::before {
+    content: none;
+  }
+
+  .date-major {
+    font-weight: 700;
+    color: var(--danger);
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  .date-event {
+    color: var(--text-dark);
+    line-height: 1.4;
+  }
+
+  /* Personnages */
+  .personnages {
+    background: linear-gradient(180deg, #ffe6f0, #ffcce0);
+    border-left: 5px solid var(--info);
+  }
+
+  [data-theme="dark"] .personnages {
+    background: linear-gradient(180deg, #4d3040, #3d2836);
+  }
+
+  .personnages .section-header {
+    background: var(--gradient-info);
+  }
+
+  .personnages .card {
+    border-color: var(--info);
+  }
+
+  .personnages-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.1em;
+    color: var(--info);
+    text-transform: uppercase;
+  }
+
+  [data-theme="dark"] .personnages-title {
+    color: #f472b6;
+  }
+
+  .personnages-dates {
+    font-style: italic;
+    color: #5a6571;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+  }
+
+  [data-theme="dark"] .personnages-dates {
+    color: #b8b8b8;
+  }
+
+  /* Carte */
+  .carte {
+    background: linear-gradient(180deg, #e8eaf6, #c5cae9);
+    border-left: 5px solid var(--purple);
+  }
+
+  [data-theme="dark"] .carte {
+    background: linear-gradient(180deg, #24263E, #1e2035);
+  }
+
+  .carte .section-header {
+    background: var(--gradient-carte);
+  }
+
+  .carte-content {
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+  }
+
+  .carte-content h4 {
+    color: var(--purple);
+    font-size: 1.2em;
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+  }
+
+  .carte-map-placeholder {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px dashed var(--purple);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xl);
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+  }
+
+  [data-theme="dark"] .carte-map-placeholder {
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+  }
+
+  .carte-map-icon {
+    font-size: 3em;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.8;
+  }
+
+  .carte-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .carte-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9em;
+    padding: 14px;
+    background: var(--bg-white);
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+  }
+
+  [data-theme="dark"] .carte-legend-item {
+    border-color: #444444;
+  }
+
+  .carte-legend-color {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* Bilan */
+  .bilan {
+    background: linear-gradient(180deg, #eceff1, #cfd8dc);
+    border-left: 5px solid var(--bilan);
+  }
+
+  [data-theme="dark"] .bilan {
+    background: linear-gradient(180deg, #3a3d40, #2f3235);
+  }
+
+  .bilan .section-header {
+    background: var(--gradient-bilan);
+  }
+
+  .bilan-content {
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+  }
+
+  .bilan-highlight-box {
+    background: var(--bg-white);
+    border: 2px solid var(--bilan);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .bilan-highlight-box h4 {
+    margin: 0 0 var(--spacing-sm) 0;
+    color: var(--bilan);
+    font-weight: 600;
+    font-size: 1em;
+  }
+
+  .bilan-highlight-box h5 {
+    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+    color: var(--bilan);
+    font-weight: 600;
+    font-size: 1em;
+    text-transform: uppercase;
+  }
+
+  /* Carte mentale */
+  .carte-mentale {
+    background: linear-gradient(180deg, #fefce8, #fef3c7);
+    border-left: 5px solid #E9AC16;
+  }
+
+  [data-theme="dark"] .carte-mentale {
+    background: linear-gradient(180deg, #453f2e, #3a341f);
+  }
+
+  .carte-mentale .section-header {
+    background: var(--gradient-carte-mentale);
+  }
+
+  .carte-mentale-content {
+    padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+  }
+
+  .carte-mentale-content h4 {
+    color: #E9AC16;
+    font-size: 1.2em;
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+  }
+
+  .carte-mentale-placeholder {
+    background: linear-gradient(135deg, #fefce8, #fef3c7);
+    border: 2px dashed #E9AC16;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xl);
+    text-align: center;
+    margin: var(--spacing-lg) 0;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  [data-theme="dark"] .carte-mentale-placeholder {
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+  }
+
+  .carte-mentale-icon {
+    font-size: 3em;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.8;
+    color: #E9AC16;
+  }
+
+  .carte-mentale-subtitle {
+    color: #ca8a04;
+    font-style: italic;
+    margin-top: var(--spacing-sm);
+    font-size: 0.9em;
+  }
+
+  [data-theme="dark"] .carte-mentale-subtitle {
+    color: #fbbf24;
+  }
+
+  .carte-mentale-concepts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  .concept-item {
+    background: var(--bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    border-left: 4px solid #E9AC16;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .concept-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(233, 172, 22, 0.15);
+  }
+
+  .concept-title {
+    font-weight: 600;
+    color: #E9AC16;
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9em;
+    text-transform: uppercase;
+  }
+
+  [data-theme="dark"] .concept-title {
+    color: #fbbf24;
+  }
+
+  .concept-description {
+    font-size: 0.85em;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  [data-theme="dark"] .concept-description {
+    color: #b0b0b0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .content {
+      padding: var(--spacing-md);
+      margin: 15px;
+    }
+
+    .cards-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .card {
+      padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .section-header {
+      font-size: 1.1em;
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .chapter-title {
+      font-size: 1.5em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body { padding-top: 70px; }
+    
+    .toolbar {
+      height: 70px;
+      padding: 8px 12px;
+      gap: 8px;
+    }
+    
+    .toolbar-btn {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+
+    .content {
+      margin: 10px;
+      padding: 15px;
+    }
+  }
+
+  /* Print */
+  @media print {
+    .toolbar { display: none !important; }
+    
+    body {
+      background: white !important;
+      padding-top: 0 !important;
+      font-size: 12pt !important;
+    }
+    
+    .section {
+      page-break-inside: avoid;
+      margin-bottom: 15pt !important;
+    }
+    
+    .chapter-header {
+      background: linear-gradient(#E6834C, #7362EA) !important;
+      color: white !important;
+      page-break-inside: avoid;
+    }
+    
+    .card {
+      background: white !important;
+      border: 1pt solid #ccc !important;
+      page-break-inside: avoid;
+    }
+  }
+
+  /* Notification simple */
+  .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: #74b9ff;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .notification.success { background: #00b894; }
+  .notification.error { background: #d63031; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(300px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+</style>
+</head>
+
+<body>
+<!-- Toolbar simplifiée -->
+<div class="toolbar">
+  <button class="toolbar-btn btn-theme" onclick="toggleTheme()">🌒 Sombre</button>
+  <button class="toolbar-btn btn-font" onclick="changeFontSize()">🔠 Taille</button>
+  <button class="toolbar-btn btn-print" onclick="window.print()">🖨️ Imprimer</button>
+</div>
+
+<!-- Contenu principal -->
+<div class="content">
+  <!-- EN-TÊTE -->
+  <header class="chapter-header">
+    <div class="theme-title">THÈME 1 — LE XVIIIe SIÈCLE : EXPANSIONS, LUMIÈRES ET RÉVOLUTIONS</div>
+    <h1 class="chapter-title">BOURGEOISIES MARCHANDES, NÉGOCES <br>ET TRAITES NÉGRIÈRES AU XVIIIᵉ SIÈCLE</h1>
+    <div class="chapter-number">HISTOIRE 4e - THÈME 1 - CHAPITRE 1</div>
+  </header>
+  
+  <!-- PROBLÉMATIQUE -->
+  <section class="section problematique">
+    <div class="section-header">
+      <div class="section-badge">1</div>
+      <span>💡 PROBLÉMATIQUE</span>
+    </div>
+    <div class="problematique-content">
+      <div class="problematique-highlight-box">
+        <h4>🤔 QUESTION CENTRALE DU CHAPITRE</h4>
+        <ul class="list-styled">
+          <li><p><em><strong>Comment les "Grandes découvertes" et l'expansion du commerce atlantique au XVIIIe siècle transforment-t-elles l'économie européenne et bouleversent-elles les sociétés africaines et américaines ?</strong></em></p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  <!-- PLAN -->
+  <section class="section plan">
+    <div class="section-header">
+      <div class="section-badge">2</div>
+      <span>📋 PLAN DU CHAPITRE</span>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="plan-card-header">
+          <div class="plan-card-icon">I</div>
+          <h3 class="plan-card-title">LES GRANDES DÉCOUVERTES</h3>
+        </div>
+        <div class="plan-card-content">
+          <p>Étude des motivations et des moyens techniques qui poussent les Européens à partir explorer le monde aux XVe-XVIe siècles. Analyse des principaux voyages d'exploration (Colomb, Vasco de Gama, Magellan) et de leurs conséquences sur la connaissance géographique du monde. Présentation des rivalités entre puissances européennes et du partage des nouvelles terres découvertes.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="plan-card-header">
+          <div class="plan-card-icon">II</div>
+          <h3 class="plan-card-title">LES EMPIRES COLONIAUX EUROPÉENS</h3>
+        </div>
+        <div class="plan-card-content">
+          <p>Analyse de la constitution des empires coloniaux espagnol, portugais, français et britannique du XVIe au XVIIIe siècle. Étude des différents types de colonisation (comptoirs, colonies de peuplement, colonies d'exploitation) et des rivalités coloniales européennes. Présentation de l'organisation administrative et économique de ces empires outre-mer.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="plan-card-header">
+          <div class="plan-card-icon">III</div>
+          <h3 class="plan-card-title">LE COMMERCE TRANSATLANTIQUE</h3>
+        </div>
+        <div class="plan-card-content">
+          <p>Étude de l'expansion du grand négoce européen par l'intermédiaire du commerce en droiture et du commerce triangulaire. Analyse des différentes formes de traites négrières et des conditions de déportation vers les Amériques. Présentation de l'enrichissement des ports atlantiques et de l'émergence de la bourgeoisie marchande.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="plan-card-header">
+          <div class="plan-card-icon">IV</div>
+          <h3 class="plan-card-title">L'ESCLAVAGE DANS LES COLONIES</h3>
+        </div>
+        <div class="plan-card-content">
+          <p>Étude de l'économie de plantation, des conditions de vie et de travail des esclaves, et des résistances à l'esclavage, ainsi que des mouvements abolitionnistes et aux abolitions progressives.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- COMPÉTENCES -->
+  <section class="section competences">
+    <div class="section-header">
+      <div class="section-badge">3</div>
+      <span>🎯 COMPÉTENCES</span>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="competences-title">⏰ Se repérer dans le temps</div>
+        <ul class="list-styled">
+          <li>Identifier les principales étapes et acteurs des grandes découvertes</li>
+          <li>Situer les grandes phases de l'expansion coloniale européenne</li>
+          <li>Construire une chronologie des abolitions de l'esclavage</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="competences-title">🗺️ SE REPÉRER DANS L'ESPACE</div>
+        <ul class="list-styled">
+          <li>Retracer les trajets des principaux explorateurs européens</li>
+          <li>Localiser les principales routes commerciales atlantiques</li>
+          <li>Identifier les ports et régions de la traite négrière</li>
+          <li>Situer les colonies et plantations sur une carte</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="competences-title">🔍 ANALYSER UN DOCUMENT</div>
+        <ul class="list-styled">
+          <li>Extraire et confronter les informations issues de documents officiels, récits et témoignages d'acteurs de l'époque</li>
+          <li>Analyser des documents iconographiques du XIV au XVIIe siècles</li>
+          <li>Analyser des cartes relatives aux grandes découvertes, expansions coloniales et commerce triangulaire</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="competences-title">🤔 Raisonner, justifier une démarche et les choix effectués</div>
+        <ul class="list-styled">
+          <li>Mettre en évidence les liens entre grandes découvertes et expansion coloniale</li>
+          <li>Analyser les effets du commerce atlantique sur les ports et l'essor de la bourgeoisie marchande</li>
+          <li>Expliquer les conséquences des traites négrières sur les sociétés africaines et américaines</li>
+          <li>Discuter des causes et des effets des résistances à l'esclavage</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  <!-- VOCABULAIRE -->
+  <section class="section vocabulaire">
+    <div class="section-header">
+      <div class="section-badge">4</div>
+      <span>📚 VOCABULAIRE</span>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="vocab-category-title">🏛️ Organisation coloniale</div>
+        <ul class="list-styled">
+          <li><span class="vocab-term">Colonie :</span><span class="vocab-definition">Territoire placé sous le contrôle d'un pays étranger qui l'exploite économiquement.</span></li>
+          <li><span class="vocab-term">Empire colonial :</span><span class="vocab-definition">Ensemble des colonies administrées par une puissance européenne (une "Métropole").</span></li>
+          <li><span class="vocab-term">Métropole :</span><span class="vocab-definition">Territoire d'origine d'un État qui possède des colonies outre-mer.</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="vocab-category-title">🚢 Commerce et acteurs économiques</div>
+        <ul class="list-styled">
+          <li><span class="vocab-term">Armateur :</span><span class="vocab-definition">Personne qui possède et équipe des navires de commerce pour l'exploitation maritime.</span></li>
+          <li><span class="vocab-term">Bourgeoisie marchande :</span><span class="vocab-definition">Nouvelle classe sociale qui s'enrichit grâce au commerce international et aux activités bancaires au XVIIIe siècle</span></li>
+          <li><span class="vocab-term">Commerce en droiture :</span><span class="vocab-definition">Commerce direct entre une métropole et ses colonies — sans passer par le système triangulaire</span></li>
+          <li><span class="vocab-term">Commerce triangulaire :</span><span class="vocab-definition">Système d'échanges Europe-Afrique-Amérique basé sur la vente de produits manufacturés, d'esclaves puis denrées coloniales. Il enrichit considérablement les ports européens</span></li>
+          <li><span class="vocab-term">Comptoir :</span><span class="vocab-definition">Un petit territoire commercial installé sur des côtes étrangères pour commercer avec les populations locales et ravitailler des navires</span></li>
+          <li><span class="vocab-term">Négoce :</span><span class="vocab-definition">Commerce de grande envergure pratiqué par les négociants européens. Il concerne particulièrement les échanges avec les colonies. Les négociants accumulent d'immenses fortunes au XVIIIe siècle</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="vocab-category-title">⛓️ Traites négrières et esclavage</div>
+        <ul class="list-styled">
+          <li><span class="vocab-term">Code noir :</span><span class="vocab-definition">Ensemble de lois françaises de 1685 régissant le statut des esclaves. Il définit l'esclave comme un bien meuble pouvant être vendu. Le Code autorise les châtiments corporels des maîtres</span></li>
+          <li><span class="vocab-term">Négrier :</span><span class="vocab-definition">Marchand ou navire qui pratique le commerce des esclaves africains vers les Amériques</span></li>
+          <li><span class="vocab-term">Traite interne :</span><span class="vocab-definition">Commerce d'esclaves pratiqué à l'intérieur du continent africain par les Africains eux-mêmes</span></li>
+          <li><span class="vocab-term">Traite arabe :</span><span class="vocab-definition">Commerce des esclaves organisé par les Arabes vers le monde arabo-musulman depuis le VIIe siècle</span></li>
+          <li><span class="vocab-term">Traite négrière :</span><span class="vocab-definition">Commerce des esclaves noirs africains organisé par les Européens entre les XVIe et XIXe siècles</span></li>
+          <li><span class="vocab-term">Plantation :</span><span class="vocab-definition">Grande exploitation agricole tropicale où travaillent les esclaves pour produire sucre, café, tabac, coton.</span></li>
+          <li><span class="vocab-term">Économie de plantation :</span><span class="vocab-definition">Système économique colonial basé sur de grandes exploitations agricoles utilisant la main-d'œuvre esclave</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="vocab-category-title">✊ Résistances et abolition</div>
+        <ul class="list-styled">
+          <li><span class="vocab-term">Abolitionnisme :</span><span class="vocab-definition">Courant d'idées et mouvement politique qui milite pour la suppression de la traite et de l'esclavage</span></li>
+          <li><span class="vocab-term">Marronnage :</span><span class="vocab-definition">Fuite des esclaves hors des plantations pour échapper aux conditions d'exploitation</span></li>
+          <li><span class="vocab-term">Marrons :</span><span class="vocab-definition">Anciens esclaves qui ont fui les plantations et forment des communautés autonomes</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  <!-- DATES CLÉS -->
+  
+  <section class="section dates">
+    <div class="section-header">
+      <div class="section-badge">5</div>
+      <span>📅 DATES CLÉS</span>
+    </div>
+    <div class="dates-content">
+      
+      <div class="dates-highlight-box">
+        <h4>⛵ GRANDES DÉCOUVERTES ET EXPANSION EUROPÉENNE</h4>
+        <ul class="list-styled">
+          <li><span class="date-major">1453</span><span class="date-event"> Prise de Constantinople par l'Empire Ottoman</span></li>
+          <li><span class="date-major">1492</span><span class="date-event"> Christophe Colomb « découvre » l'Amérique</span></li>
+          <li><span class="date-major">1498</span><span class="date-event"> Vasco de Gama atteint les Indes par le cap de Bonne-Espérance</span></li>
+          <li><span class="date-major">1522</span><span class="date-event"> Premier tour du monde accompli par l'équipage de Magellan</span></li>
+        </ul>
+      </div>
+      
+        <div class="dates-highlight-box">
+          <h4>⚔️ EXPANSION COLONIALE ET RIVALITÉS</h4>
+          <ul class="list-styled">
+            <li><span class="date-major">1494</span><span class="date-event"> Traité de Tordesillas entre l'Espagne et le Portugal</span></li>
+            <li><span class="date-major">1756-1763</span><span class="date-event"> Guerre de Sept Ans entre France et Royaume-Uni</span></li>
+            <li><span class="date-major">1763</span><span class="date-event"> Traité de Paris entre France et Royaume-Uni</span></li>
+          </ul>
+        </div>
+      
+      <div class="dates-highlight-box">
+        <h4>🔗 ORGANISATION ET RÉGLEMENTATION DE L'ESCLAVAGE</h4>
+        <ul class="list-styled">
+          <li><span class="date-major">1685</span><span class="date-event"> Promulgation du Code noir dans les colonies françaises</span></li>
+          <li><span class="date-major">1789</span><span class="date-event"> Déclaration des droits de l'Homme et du Citoyen en France</span></li>
+          <li><span class="date-major">1791</span><span class="date-event"> Début de la révolte des esclaves de Saint-Domingue</span></li>
+        </ul>
+      </div>
+      
+      <div class="dates-highlight-box">
+        <h4>⛓️‍💥 ABOLITIONS DE LA TRAITE ET DE L'ESCLAVAGE</h4>
+        <ul class="list-styled">
+          <li><span class="date-major">1794</span><span class="date-event"> Première abolition de l'esclavage par la Convention française</span></li>
+          <li><span class="date-major">1804</span><span class="date-event"> Indépendance d'Haïti, première république noire</span></li>
+          <li><span class="date-major">1833</span><span class="date-event"> Abolition de l'esclavage dans l'Empire britannique</span></li>
+          <li><span class="date-major">1848</span><span class="date-event"> Abolition définitive de l'esclavage en France (décret Schoelcher)</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONNAGES -->
+  <section class="section personnages">
+    <div class="section-header">
+      <div class="section-badge">6</div>
+      <span>👑 PERSONNAGES HISTORIQUES</span>
+    </div>
+    
+    <div class="cards-grid">
+      <div class="card">
+        <div class="personnages-title">CHRISTOPHE COLOMB</div>
+        <div class="personnages-dates">(vers 1451-1506)</div>
+        <div class="personnages-content">
+          Navigateur génois au service de l'Espagne qui découvre l'Amérique en 1492 en cherchant une route vers les Indes par l'ouest. Ses voyages ouvrent la voie à la colonisation européenne du Nouveau Monde et au développement du commerce atlantique.
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="personnages-title">VASCO DE GAMA</div>
+        <div class="personnages-dates">(vers 1469-1524)</div>
+        <div class="personnages-content">
+          Explorateur portugais qui découvre la route maritime vers les Indes en contournant l'Afrique par le cap de Bonne-Espérance en 1498. Il établit les bases de l'empire commercial portugais en Océan Indien et en Asie.
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="personnages-title">FERNAND DE MAGELLAN</div>
+        <div class="personnages-dates">(vers 1480-1521)</div>
+        <div class="personnages-content">
+          Navigateur portugais au service de l'Espagne, il entreprend le premier voyage de circumnavigation (1519-1522). Bien qu'il meure aux Philippines en 1521, son expédition prouve la rotondité de la Terre et ouvre de nouvelles routes maritimes mondiales.
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="personnages-title">OLAUDAH EQUIANO</div>
+        <div class="personnages-dates">v. 1745-1797</div>
+        <div class="personnages-content">
+          Ancien esclave africain devenu écrivain et militant abolitionniste. Son autobiographie "The Interesting Narrative" (1789) témoigne des horreurs de la traite et de l'esclavage. Il devient une figure majeure du mouvement abolitionniste britannique.
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="personnages-title">TOUSSAINT LOUVERTURE</div>
+        <div class="personnages-dates">v. 1743-1803</div>
+        <div class="personnages-content">
+          Leader de la révolution haïtienne, ancien esclave devenu général. Il dirige la rébellion de Saint-Domingue à partir de 1791, proclame l'abolition de l'esclavage et gouverne l'île. Arrêté par les troupes de Napoléon en 1802, il meurt en captivité en France.
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="personnages-title">VICTOR SCHOELCHER</div>
+        <div class="personnages-dates">1804-1893</div>
+        <div class="personnages-content">
+          Homme politique et journaliste français, principal artisan de l'abolition de l'esclavage en France. Sous-secrétaire d'État aux colonies en 1848, il rédige le décret d'abolition définitive de l'esclavage dans les colonies françaises, libérant 250 000 esclaves.
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="personnages-title">WILLIAM WILBERFORCE</div>
+        <div class="personnages-dates">1759-1833</div>
+        <div class="personnages-content">
+          Député britannique et leader du mouvement abolitionniste en Grande-Bretagne. Il mène pendant 20 ans la campagne parlementaire contre la traite négrière. Ses efforts aboutissent à l'abolition de la traite (1807) puis de l'esclavage (1833) dans l'Empire britannique.
+        </div>
+      </div>
+    </div> 
+  </section>
+
+  <!-- CARTE -->
+  <section class="section carte">
+    <div class="section-header">
+      <div class="section-badge">7</div>
+      <span>🗺️ CARTE DE SYNTHÈSE</span>
+    </div>
+    <div class="carte-content">
+      <h4>Le Commerce Triangulaire et les Routes de l'Atlantique au XVIIIe siècle</h4>
+      <div class="carte-map-placeholder">
+        <div class="carte-map-icon">🗺️</div>
+        <p><strong>Carte des échanges commerciaux transatlantiques</strong></p>
+        <p>Visualisation des routes commerciales reliant l'Europe, l'Afrique et l'Amérique dans le système économique atlantique</p>
+      </div>
+      <p><strong>Source :</strong> Atlas historique du commerce atlantique, XVIIIe siècle</p>
+      <div class="carte-legend-section">
+        <h4>LÉGENDE</h4>
+        <div class="carte-legend-grid">
+          <div class="carte-legend-item">
+            <div class="carte-legend-color" style="background-color: #4A90E2;"></div>
+            Routes européennes vers l'Amérique
+          </div>
+          <div class="carte-legend-item">
+            <div class="carte-legend-color" style="background-color: #E74C3C;"></div>
+            Routes de la traite négrière
+          </div>
+          <div class="carte-legend-item">
+            <div class="carte-legend-color" style="background-color: #8B4513;"></div>
+            Ports européens du commerce atlantique
+          </div>
+          <div class="carte-legend-item">
+            <div class="carte-legend-color" style="background-color: #FF6B35;"></div>
+            Zones de déportation des esclaves
+          </div>
+          <div class="carte-legend-item">
+            <div class="carte-legend-color" style="background-color: #9B59B6;"></div>
+            Régions des plantations
+          </div>
+          <div class="carte-legend-item">
+            <div class="carte-legend-color" style="background-color: #F39C12;"></div>
+            Comptoirs commerciaux africains
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- BILAN -->
+  
+  <section class="section bilan">
+    <div class="section-header">
+      <div class="section-badge">8</div>
+      <span>📝 BILAN</span>
+    </div>
+    <div class="bilan-content">
+      <div class="bilan-highlight-box">
+        <h4>Synthèse générale</h4>
+        <h5>L'ESSOR D'UN SYSTÈME ÉCONOMIQUE ATLANTIQUE</h5>
+        <p>Au XVIIIe siècle, l'Europe domine les échanges commerciaux atlantiques grâce à ses empires coloniaux et au commerce triangulaire. Cette domination génère d'immenses richesses qui profitent aux ports européens et favorisent l'émergence d'une bourgeoisie marchande prospère, notamment en France et en Angleterre.</p>
+        <h5>LA TRAITE NÉGRIÈRE AU CŒUR DU SYSTÈME COLONIAL</h5>
+        <p>La traite transatlantique constitue le pilier de l'économie de plantation américaine. Des millions d'Africains sont réduits en esclavage et déportés vers les Amériques dans des conditions inhumaines pour alimenter les plantations de sucre, café et tabac. Ce système génère des profits considérables pour les négociants européens mais cause des traumatismes durables aux sociétés africaines et américaines.</p>
+        <h5>LES RÉSISTANCES ET L'ABOLITION PROGRESSIVE</h5>
+        <p>Face à ce système d'exploitation, les esclaves développent diverses formes de résistance (marronnage, révoltes) dont l'exemple le plus marquant est la révolution haïtienne menée par Toussaint Louverture. Parallèlement, les idées des Lumières et les valeurs démocratiques alimentent les mouvements abolitionnistes qui obtiennent progressivement la suppression de la traite puis de l'esclavage entre la fin du XVIIIe et le milieu du XIXe siècle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTE MENTALE -->
+  <section class="section carte-mentale">
+    <div class="section-header">
+      <div class="section-badge">9</div>
+      <span>🧠 CARTE MENTALE</span>
+    </div>
+    <div class="carte-mentale-content">
+      <h4>Bourgeoisies marchandes, négoces et traites négrières au XVIIIe siècle</h4>
+      <div class="carte-mentale-placeholder">
+        <div class="carte-mentale-icon">🧠</div>
+        <p><strong>SYSTÈME ÉCONOMIQUE ATLANTIQUE</strong></p>
+        <p class="carte-mentale-subtitle">Concepts clés à retenir et à organiser</p>
+      </div>
+      
+      <div class="carte-mentale-concepts">
+        <div class="concept-item">
+          <div class="concept-title">GRANDES DÉCOUVERTES</div>
+          <div class="concept-description">Exploration européenne des océans aux XVe-XVIe siècles (Colomb, Vasco de Gama, Magellan)</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">EMPIRES COLONIAUX</div>
+          <div class="concept-description">Domination territoriale européenne en Amérique, Afrique et Asie (comptoirs, colonies)</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">COMMERCE TRIANGULAIRE</div>
+          <div class="concept-description">Système d'échanges Europe-Afrique-Amérique basé sur produits manufacturés, esclaves, denrées coloniales</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">TRAITE NÉGRIÈRE</div>
+          <div class="concept-description">Déportation forcée de millions d'Africains vers les plantations américaines (XVIe-XIXe siècles)</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">ÉCONOMIE DE PLANTATION</div>
+          <div class="concept-description">Système agricole colonial basé sur le travail esclave (sucre, café, tabac, coton)</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">BOURGEOISIE MARCHANDE</div>
+          <div class="concept-description">Nouvelle classe sociale enrichie par le commerce atlantique et les activités bancaires</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">RÉSISTANCES</div>
+          <div class="concept-description">Formes de lutte contre l'esclavage : marronnage, révoltes, révolution haïtienne</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">ABOLITIONNISME</div>
+          <div class="concept-description">Mouvement de pensée et d'action pour la suppression de la traite et de l'esclavage</div>
+        </div>
+        <div class="concept-item">
+          <div class="concept-title">ABOLITIONS</div>
+          <div class="concept-description">Suppression progressive de l'esclavage par les puissances européennes (1794-1888)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+// Variables globales
+let isDarkTheme = false;
+let currentFontSize = 16;
+
+// Mode sombre/clair
+function toggleTheme() {
+  isDarkTheme = !isDarkTheme;
+  document.body.dataset.theme = isDarkTheme ? 'dark' : '';
+  
+  const btn = document.querySelector('.btn-theme');
+  btn.textContent = isDarkTheme ? '☀️ Clair' : '🌒 sombre';
+  
+  showNotification(isDarkTheme ? 'Mode sombre activé' : 'Mode clair activé');
+}
+
+// Taille de police
+function changeFontSize() {
+  const sizes = [14, 16, 18, 20, 22];
+  const currentIndex = sizes.indexOf(currentFontSize);
+  const nextIndex = (currentIndex + 1) % sizes.length;
+  currentFontSize = sizes[nextIndex];
+  
+  document.body.style.fontSize = currentFontSize + 'px';
+  
+  const sizeNames = ['Petit', 'Normal', 'Grand', 'Très grand', 'Extra grand'];
+  showNotification(`Taille: ${sizeNames[nextIndex]}`);
+}
+
+// Notification simple
+function showNotification(message) {
+  // Supprimer notification existante
+  const existing = document.querySelector('.notification');
+  if (existing) existing.remove();
+  
+  const notification = document.createElement('div');
+  notification.className = 'notification';
+  notification.textContent = message;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.style.animation = 'slideIn 0.3s ease-in reverse';
+    setTimeout(() => notification.remove(), 300);
+  }, 2000);
+}
+
+// Initialisation simple
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('📚 Fiche de synthèse Histoire chargée');
+});
+</script>
+</body>
+</html>
